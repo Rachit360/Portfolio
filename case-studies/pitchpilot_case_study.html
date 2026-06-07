@@ -1,0 +1,365 @@
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0d0d0d;color:#f0ece0;font-family:'DM Sans',sans-serif;}
+
+.hero{min-height:540px;display:flex;flex-direction:column;justify-content:flex-end;padding:64px 52px 60px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0e1520 0%,#111d2e 45%,#152238 100%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(240,236,224,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(240,236,224,0.025) 1px,transparent 1px);background-size:52px 52px;}
+.glow1{position:absolute;width:540px;height:540px;border-radius:50%;filter:blur(140px);opacity:0.18;right:-100px;top:-100px;background:radial-gradient(circle,#2563eb,#1e40af);}
+.glow2{position:absolute;width:280px;height:280px;border-radius:50%;filter:blur(100px);opacity:0.1;left:8%;bottom:-60px;background:#c8a96e;}
+.glow3{position:absolute;width:180px;height:180px;border-radius:50%;filter:blur(80px);opacity:0.08;left:35%;top:25%;background:#7c3aed;}
+.hero-inner{position:relative;z-index:1;}
+.eyebrow{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(240,236,224,0.3);margin-bottom:22px;display:flex;align-items:center;gap:12px;}
+.eyebrow::before{content:'';display:inline-block;width:28px;height:1px;background:rgba(240,236,224,0.2);}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(52px,10vw,98px);font-weight:900;line-height:0.9;letter-spacing:-0.02em;color:#f0ece0;margin-bottom:20px;}
+.hero-title em{font-style:italic;color:#c8a96e;}
+.hero-desc{font-size:15px;color:rgba(240,236,224,0.4);max-width:540px;line-height:1.8;margin-bottom:36px;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.h-tag{background:rgba(240,236,224,0.04);border:1px solid rgba(240,236,224,0.09);color:rgba(240,236,224,0.4);padding:5px 14px;border-radius:20px;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;}
+
+.content{max-width:820px;margin:0 auto;padding:0 52px 100px;}
+
+.big-statement{padding:80px 0 64px;border-bottom:1px solid rgba(240,236,224,0.07);}
+.big-q{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(20px,3.5vw,30px);line-height:1.5;color:#c0b8a0;font-weight:400;}
+.big-q em{color:#c8a96e;font-style:normal;}
+
+.section{padding:64px 0;border-bottom:1px solid rgba(240,236,224,0.07);}
+.s-label{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(240,236,224,0.22);margin-bottom:12px;}
+.s-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,38px);font-weight:700;color:#f0ece0;line-height:1.15;margin-bottom:28px;}
+.s-title em{font-style:italic;color:#c8a96e;}
+.body{font-size:15px;line-height:1.85;color:#7a7268;margin-bottom:20px;}
+.body strong{color:#b0a898;font-weight:500;}
+
+.callout{background:rgba(200,169,110,0.06);border:1px solid rgba(200,169,110,0.13);border-radius:16px;padding:36px 44px;margin:48px 0;}
+.callout-text{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(16px,2.5vw,21px);line-height:1.65;color:#c8b898;}
+
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;align-items:center;gap:0;margin:44px 0;overflow-x:auto;}
+.flow-stage{background:rgba(240,236,224,0.03);border:1px solid rgba(240,236,224,0.08);border-radius:12px;padding:20px 18px;text-align:center;min-width:130px;}
+.flow-stage.you{border-color:rgba(200,169,110,0.2);background:rgba(200,169,110,0.05);}
+.flow-stage.auto{border-color:rgba(99,102,241,0.2);background:rgba(99,102,241,0.05);}
+.flow-num{font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,236,224,0.22);margin-bottom:6px;}
+.flow-icon{font-size:18px;margin-bottom:8px;}
+.flow-title{font-size:11px;font-weight:500;color:#f0ece0;letter-spacing:0.04em;margin-bottom:4px;}
+.flow-who{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;}
+.who-you{color:rgba(200,169,110,0.6);}
+.who-auto{color:rgba(99,102,241,0.6);}
+.flow-arrow{color:rgba(240,236,224,0.15);font-size:16px;padding:0 6px;flex-shrink:0;}
+
+.sheet{background:rgba(240,236,224,0.02);border:1px solid rgba(240,236,224,0.06);border-radius:16px;overflow:hidden;margin:48px 0;}
+.sheet-bar{background:rgba(240,236,224,0.03);padding:10px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(240,236,224,0.05);}
+.s-dot{width:9px;height:9px;border-radius:50%;}
+.d1{background:#ff5f57;}.d2{background:#febc2e;}.d3{background:#28c840;}
+.sheet-title-bar{margin-left:8px;font-size:11px;color:rgba(240,236,224,0.18);letter-spacing:0.04em;}
+.sheet-body{overflow-x:auto;}
+.sheet-table{width:100%;border-collapse:collapse;font-size:11px;}
+.sheet-table th{background:rgba(240,236,224,0.04);color:rgba(240,236,224,0.3);padding:8px 12px;text-align:left;border-bottom:1px solid rgba(240,236,224,0.06);letter-spacing:0.06em;font-weight:500;white-space:nowrap;}
+.sheet-table td{padding:9px 12px;border-bottom:1px solid rgba(240,236,224,0.04);color:#5a5450;white-space:nowrap;}
+.sheet-table tr:hover td{background:rgba(240,236,224,0.02);}
+.col-auto{background:rgba(99,102,241,0.05);}
+.col-you{background:rgba(200,169,110,0.03);}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:500;letter-spacing:0.06em;}
+.badge-approved{background:rgba(34,197,94,0.12);color:#22c55e;border:1px solid rgba(34,197,94,0.2);}
+.badge-sent{background:rgba(99,102,241,0.12);color:#818cf8;border:1px solid rgba(99,102,241,0.2);}
+.badge-pending{background:rgba(240,236,224,0.06);color:#5a5450;border:1px solid rgba(240,236,224,0.1);}
+.col-label{font-size:8px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.auto-label{color:rgba(99,102,241,0.5);}
+.you-label{color:rgba(200,169,110,0.5);}
+
+.profiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:36px 0;}
+.profile-card{border:1px solid rgba(240,236,224,0.08);border-radius:12px;padding:22px 20px;background:rgba(240,236,224,0.02);}
+.profile-card.active{border-color:rgba(200,169,110,0.25);background:rgba(200,169,110,0.05);}
+.profile-icon{font-size:20px;margin-bottom:10px;}
+.profile-title{font-size:12px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#f0ece0;margin-bottom:6px;}
+.profile-desc{font-size:12px;line-height:1.65;color:#4a4540;}
+.profile-tag{display:inline-block;margin-top:10px;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(200,169,110,0.5);border:1px solid rgba(200,169,110,0.15);padding:3px 8px;border-radius:4px;}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(240,236,224,0.06);border-radius:16px;overflow:hidden;margin:48px 0;}
+.stat{background:#0d0d0d;padding:28px 20px;}
+.stat-n{font-family:'Playfair Display',serif;font-size:40px;font-weight:900;color:#c8a96e;line-height:1;}
+.stat-unit{font-size:14px;color:rgba(200,169,110,0.5);}
+.stat-l{font-size:11px;color:#3a3830;margin-top:8px;line-height:1.5;}
+
+.week{margin:40px 0;}
+.week-day{display:grid;grid-template-columns:120px 1fr;border-top:1px solid rgba(240,236,224,0.06);padding:24px 0;}
+.week-day:last-child{border-bottom:1px solid rgba(240,236,224,0.06);}
+.week-label{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#f0ece0;padding-top:2px;}
+.week-label span{display:block;font-size:9px;font-weight:400;color:#3a3830;letter-spacing:0.06em;margin-top:4px;}
+.week-content{font-size:14px;line-height:1.75;color:#5a5450;}
+.week-content code{background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.15);color:#818cf8;padding:2px 8px;border-radius:4px;font-size:12px;font-family:monospace;}
+
+.tech-grid{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0;}
+.tech{background:rgba(240,236,224,0.03);border:1px solid rgba(240,236,224,0.07);color:#5a5450;padding:7px 16px;border-radius:8px;font-size:12px;letter-spacing:0.04em;}
+
+.outcomes{margin:32px 0;}
+.outcome{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid rgba(240,236,224,0.05);}
+.outcome:first-child{border-top:1px solid rgba(240,236,224,0.05);}
+.o-dot{width:5px;height:5px;min-width:5px;border-radius:50%;background:#c8a96e;margin-top:10px;}
+.outcome p{font-size:14px;line-height:1.8;color:#5e5850;}
+.outcome p strong{color:#908880;font-weight:500;}
+
+.roadmap{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:32px 0;}
+.rm-item{background:rgba(240,236,224,0.02);border:1px solid rgba(240,236,224,0.06);border-radius:10px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;}
+.rm-icon{font-size:14px;margin-top:2px;}
+.rm-text{font-size:13px;color:#4a4540;line-height:1.6;}
+
+.closing{padding:80px 0 0;}
+.closing-big{font-family:'Playfair Display',serif;font-size:clamp(18px,3vw,26px);font-weight:400;font-style:italic;color:#2e2e2a;line-height:1.6;}
+.closing-big em{color:#c8a96e;font-style:normal;}
+</style>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="glow1"></div>
+  <div class="glow2"></div>
+  <div class="glow3"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">AI Automation · Cold Outreach · Job Search Pipeline</div>
+    <div class="hero-title">Pitch<em>Pilot.</em></div>
+    <div class="hero-desc">Manual cold outreach takes 45 minutes per company. Most of it is research you forget by the next day. I built the pipeline I wished existed.</div>
+    <div class="hero-tags">
+      <span class="h-tag">Python</span>
+      <span class="h-tag">Groq API</span>
+      <span class="h-tag">LLaMA 3.3</span>
+      <span class="h-tag">Google Sheets API</span>
+      <span class="h-tag">Gmail SMTP</span>
+      <span class="h-tag">BeautifulSoup</span>
+      <span class="h-tag">Google News RSS</span>
+      <span class="h-tag">NewsAPI</span>
+      <span class="h-tag">gspread</span>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="big-statement">
+    <div class="big-q">Most students upload a resume to Naukri and wait. Cold emailing founders directly is <em>10x more effective</em> — but it takes hours to do well. I automated the hours, kept the personalization.</div>
+  </div>
+
+  <div class="section">
+    <div class="s-label">The Problem</div>
+    <div class="s-title">Cold email works. <em>Scaling it doesn't.</em></div>
+    <p class="body">A resume on LinkedIn is one of 400. A cold email to a founder is one of maybe five that week. The conversion difference is real — but the reason most people don't do it is time. <strong>Researching a company, finding the right angle, writing something that doesn't sound templated — that's 45 minutes per email, done well.</strong> Scale that to 20 companies and you've lost a day.</p>
+    <p class="body">The other problem: personalization breaks at scale. You can write one great email. You can't write twenty with genuine company-specific context without help. This pipeline gives you that help — and keeps you in control of every word that goes out.</p>
+  </div>
+
+  <div class="section">
+    <div class="s-label">How It Works</div>
+    <div class="s-title">Four scripts. <em>One weekly workflow.</em></div>
+    <p class="body" style="margin-bottom:40px;">The pipeline splits responsibilities clearly — you do the human judgment work, the system handles everything else.</p>
+
+    <div class="flow">
+      <div class="flow-stage you">
+        <div class="flow-num">01</div>
+        <div class="flow-icon">📋</div>
+        <div class="flow-title">Fill Sheet</div>
+        <div class="flow-who who-you">You · 30–45 min</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-stage auto">
+        <div class="flow-num">02</div>
+        <div class="flow-icon">🔍</div>
+        <div class="flow-title">Auto Research</div>
+        <div class="flow-who who-auto">Automated</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-stage you">
+        <div class="flow-num">03</div>
+        <div class="flow-icon">✅</div>
+        <div class="flow-title">Review & Approve</div>
+        <div class="flow-who who-you">You · Human gate</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-stage auto">
+        <div class="flow-num">04</div>
+        <div class="flow-icon">📨</div>
+        <div class="flow-title">Generate & Send</div>
+        <div class="flow-who who-auto">Automated</div>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-day">
+        <div class="week-label">Sunday<span>30–45 min</span></div>
+        <div class="week-content">Research 10–15 startups manually. Find company name, website, HR or founder email, and the role you want. Fill columns A–H in the Google Sheet. This is the only part that requires your judgment — everything else is automated.</div>
+      </div>
+      <div class="week-day">
+        <div class="week-label">Auto Research<span>~2 min</span></div>
+        <div class="week-content">Run <code>python auto_research.py</code>. Scrapes each company website via BeautifulSoup, fetches recent news via Google News RSS + NewsAPI fallback, then sends it all to Groq (LLaMA 3.3) to generate two columns: <em>Why This Company</em> and <em>Your Angle</em> — tailored to your active profile.</div>
+      </div>
+      <div class="week-day">
+        <div class="week-label">Review<span>10 min · your call</span></div>
+        <div class="week-content">Open the Sheet. Read the AI-generated research and angles. Edit anything that looks off. Type <code>Approved</code> in column L for rows you're happy with. Nothing sends without your explicit sign-off — the human gate is the most important part of the system.</div>
+      </div>
+      <div class="week-day">
+        <div class="week-label">Send<span>~1 min</span></div>
+        <div class="week-content">Run <code>python generate_emails.py</code>. Generates a personalized cold email per company using Groq + few-shot examples, sends via Gmail SMTP, BCCs you automatically on every email, updates Status to Sent, logs Date Sent, and writes everything to a CSV outreach log.</div>
+      </div>
+      <div class="week-day">
+        <div class="week-label">Dashboard<span>optional</span></div>
+        <div class="week-content">Run <code>python dashboard.py</code> to generate a visual HTML dashboard from the CSV log — outreach volume, reply rates, status breakdown. Full pipeline visibility without opening a spreadsheet.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-label">The Tracker</div>
+    <div class="s-title">Google Sheets as an <em>outreach OS.</em></div>
+    <p class="body">The Sheet is the interface between you and the pipeline. Columns A–H are yours. Columns I–K are auto-filled by AI. Column L is your approval gate. Everything else logs itself.</p>
+
+    <div class="sheet">
+      <div class="sheet-bar">
+        <div class="s-dot d1"></div><div class="s-dot d2"></div><div class="s-dot d3"></div>
+        <div class="sheet-title-bar">PitchPilot Outreach Tracker · Google Sheets</div>
+      </div>
+      <div class="sheet-body">
+        <table class="sheet-table">
+          <thead>
+            <tr>
+              <th class="col-you"><div class="col-label you-label">You</div>Company</th>
+              <th class="col-you"><div class="col-label you-label">You</div>Role</th>
+              <th class="col-auto"><div class="col-label auto-label">Auto</div>Recent News</th>
+              <th class="col-auto"><div class="col-label auto-label">AI</div>Why This Co.</th>
+              <th class="col-auto"><div class="col-label auto-label">AI</div>Your Angle</th>
+              <th class="col-you"><div class="col-label you-label">You</div>Status</th>
+              <th class="col-auto"><div class="col-label auto-label">Auto</div>Date Sent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>WebIndiaInc</td>
+              <td>AI Automation Eng.</td>
+              <td>Raised $2M seed, expanding AI team...</td>
+              <td>Fast-moving AI automation startup...</td>
+              <td>DocuMind RAG pipeline aligns perfectly...</td>
+              <td><span class="badge badge-sent">Sent</span></td>
+              <td>Jun 4, 2026</td>
+            </tr>
+            <tr>
+              <td>Talencia Global</td>
+              <td>Agentic AI Developer</td>
+              <td>Launched new AI training cohort...</td>
+              <td>Building AI talent pipelines for enterprises...</td>
+              <td>Agentic-EHR pipeline directly relevant...</td>
+              <td><span class="badge badge-sent">Sent</span></td>
+              <td>Jun 5, 2026</td>
+            </tr>
+            <tr>
+              <td>Groww</td>
+              <td>Data Analyst</td>
+              <td>Q1 user growth 40%, expanding data sci...</td>
+              <td>Data-driven fintech at massive scale...</td>
+              <td>SQL + Power BI + Python pipeline work...</td>
+              <td><span class="badge badge-approved">Approved</span></td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Zepto</td>
+              <td>Backend SDE</td>
+              <td>Expanding to 10 new cities, scaling infra...</td>
+              <td>Hyper-growth logistics, backend challenges...</td>
+              <td>MERN stack + MongoDB at scale...</td>
+              <td><span class="badge badge-pending">Pending</span></td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-text">"The human approval gate isn't a limitation of the system — it's the most important feature. The best pipelines don't replace humans. They amplify them."</div>
+  </div>
+
+  <div class="section">
+    <div class="s-label">Smart Feature</div>
+    <div class="s-title">Three profiles. <em>One switch.</em></div>
+    <p class="body">The pipeline carries three distinct sender profiles — each with different skill highlights, project emphasis, and email tone. Change one line in <code>auto_research.py</code> to switch between them. Groq uses the active profile to generate your angle and tailor the email accordingly.</p>
+
+    <div class="profiles">
+      <div class="profile-card active">
+        <div class="profile-icon">🤖</div>
+        <div class="profile-title">AI Automation</div>
+        <div class="profile-desc">Leads with PitchPilot, DocuMind RAG pipeline, n8n, Groq integrations. Targets AI-first startups and automation-heavy roles.</div>
+        <span class="profile-tag">PROFILE_AI_AUTOMATION</span>
+      </div>
+      <div class="profile-card">
+        <div class="profile-icon">⚙️</div>
+        <div class="profile-title">Development</div>
+        <div class="profile-desc">Leads with Agentic-EHR, GOFOOD MERN app, Flutter PocketPal. Targets SDE and backend engineering roles.</div>
+        <span class="profile-tag">PROFILE_DEVELOPMENT</span>
+      </div>
+      <div class="profile-card">
+        <div class="profile-icon">📊</div>
+        <div class="profile-title">Data Analyst</div>
+        <div class="profile-desc">Leads with SQL, Power BI dashboard, StressIQ ML, Python data pipelines. Targets analytics and data science roles.</div>
+        <span class="profile-tag">PROFILE_DATA_ANALYST</span>
+      </div>
+    </div>
+
+    <p class="body" style="margin-top:8px;">This turns PitchPilot from an email tool into a <strong>positioning tool</strong> — the same pipeline presents you differently depending on who you're talking to, without rewriting anything.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n">20</div><div class="stat-l">Personalized emails sent in the time it used to take to write one</div></div>
+    <div class="stat"><div class="stat-n">3</div><div class="stat-l">Role-specific profiles, one-line switch</div></div>
+    <div class="stat"><div class="stat-n">14</div><div class="stat-l">Sheet columns — 8 yours, 6 auto-filled</div></div>
+    <div class="stat"><div class="stat-n">0</div><div class="stat-l">Emails sent without your explicit approval</div></div>
+  </div>
+
+  <div class="section">
+    <div class="s-label">Design Decisions</div>
+    <div class="s-title">Why these choices <em>were deliberate.</em></div>
+    <p class="body"><strong>Google Sheets over a database:</strong> The tracker needed to be human-readable, editable on mobile, and shareable without setup. Sheets is the perfect interface for a human-in-the-loop system — everyone already knows how to use it.</p>
+    <p class="body"><strong>Few-shot prompting for email generation:</strong> Zero-shot emails sounded robotic. Adding real cold email examples to the prompt — not instructions, but actual examples — transformed output quality. The model learned tone from evidence, not rules.</p>
+    <p class="body"><strong>Auto BCC on every send:</strong> Every email that goes out lands in your own inbox too. You always know exactly what was sent, to whom, with what wording. No surprises.</p>
+    <p class="body"><strong>NewsAPI as fallback to Google News RSS:</strong> Google News RSS works well for larger companies. Smaller startups often have poor RSS coverage. The fallback dramatically improved research quality for lesser-known targets.</p>
+  </div>
+
+  <div class="section">
+    <div class="s-label">Stack</div>
+    <div class="s-title">Every tool <em>earns its place.</em></div>
+    <div class="tech-grid">
+      <span class="tech">Python 3.13</span>
+      <span class="tech">Groq API (LLaMA 3.3-70b)</span>
+      <span class="tech">Google Sheets API</span>
+      <span class="tech">gspread</span>
+      <span class="tech">Gmail SMTP</span>
+      <span class="tech">BeautifulSoup4</span>
+      <span class="tech">Google News RSS</span>
+      <span class="tech">NewsAPI</span>
+      <span class="tech">pandas</span>
+      <span class="tech">python-dotenv</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-label">What's Next</div>
+    <div class="s-title">Planned <em>improvements.</em></div>
+    <div class="roadmap">
+      <div class="rm-item"><div class="rm-icon">⏰</div><div class="rm-text">Auto follow-up after 7 days if no reply — closes the loop without manual tracking</div></div>
+      <div class="rm-item"><div class="rm-icon">🔍</div><div class="rm-text">Better news relevance for smaller startups via deeper domain scraping fallbacks</div></div>
+      <div class="rm-item"><div class="rm-icon">📬</div><div class="rm-text">Reply detection and auto-logging back to the Sheet — close the tracking loop fully</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-label">Learnings</div>
+    <div class="s-title">What building this <em>actually taught me.</em></div>
+    <div class="outcomes">
+      <div class="outcome"><div class="o-dot"></div><p><strong>Few-shot prompting is the single highest-leverage improvement</strong> you can make to LLM output quality. Better than temperature tuning, better than longer system prompts.</p></div>
+      <div class="outcome"><div class="o-dot"></div><p><strong>Human-in-the-loop isn't a workaround — it's a product principle.</strong> The approval gate keeps quality high and builds trust in the system. Automation without oversight is just spam at scale.</p></div>
+      <div class="outcome"><div class="o-dot"></div><p><strong>Secrets management is non-negotiable from day one.</strong> Nearly committed <code>.env</code> and <code>credentials.json</code> to GitHub early on. Set up <code>.gitignore</code> before writing the first line of code, not after.</p></div>
+      <div class="outcome"><div class="o-dot"></div><p><strong>News coverage drops sharply for smaller startups.</strong> Fallback layering — RSS → NewsAPI → website scrape — is essential for real-world data quality across targets of all sizes.</p></div>
+      <div class="outcome"><div class="o-dot"></div><p><strong>The dashboard was underrated.</strong> Adding visual outreach stats transformed the system from a script into a tool with feedback loops — you could actually see what was working.</p></div>
+    </div>
+  </div>
+
+  <div class="closing">
+    <div class="closing-big">PitchPilot didn't just save time — it changed how I think about <em>automation with intention.</em> The best pipelines don't replace humans. They amplify them.</div>
+  </div>
+
+</div>

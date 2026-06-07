@@ -1,0 +1,276 @@
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0d0d0d;color:#f0ece0;font-family:'DM Sans',sans-serif;}
+
+/* HERO */
+.hero{min-height:520px;display:flex;flex-direction:column;justify-content:flex-end;padding:64px 52px 60px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#160d28 0%,#1e1035 45%,#2a1845 100%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(240,236,224,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(240,236,224,0.03) 1px,transparent 1px);background-size:48px 48px;}
+.hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;filter:blur(130px);opacity:0.2;right:-80px;top:-80px;background:radial-gradient(circle,#7b4fd4,#3b1fa0);}
+.hero-glow2{position:absolute;width:300px;height:300px;border-radius:50%;filter:blur(100px);opacity:0.12;left:10%;bottom:-60px;background:#c8a96e;}
+.hero-inner{position:relative;z-index:1;}
+.eyebrow{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(240,236,224,0.35);margin-bottom:22px;display:flex;align-items:center;gap:12px;}
+.eyebrow::before{content:'';display:inline-block;width:28px;height:1px;background:rgba(240,236,224,0.25);}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(60px,11vw,104px);font-weight:900;line-height:0.9;letter-spacing:-0.02em;color:#f0ece0;margin-bottom:20px;}
+.hero-title em{font-style:italic;color:#c8a96e;}
+.hero-desc{font-size:15px;color:rgba(240,236,224,0.45);max-width:520px;line-height:1.75;margin-bottom:36px;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.h-tag{background:rgba(240,236,224,0.05);border:1px solid rgba(240,236,224,0.1);color:rgba(240,236,224,0.45);padding:5px 14px;border-radius:20px;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;}
+
+/* CONTENT */
+.content{max-width:820px;margin:0 auto;padding:0 52px 100px;}
+
+.big-statement{padding:80px 0 64px;border-bottom:1px solid rgba(240,236,224,0.07);}
+.big-q{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(20px,3.5vw,30px);line-height:1.5;color:#c8b898;font-weight:400;}
+.big-q em{color:#c8a96e;font-style:normal;}
+
+.section{padding:64px 0;border-bottom:1px solid rgba(240,236,224,0.07);}
+.s-label{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(240,236,224,0.25);margin-bottom:12px;}
+.s-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,38px);font-weight:700;color:#f0ece0;line-height:1.15;margin-bottom:28px;}
+.s-title em{font-style:italic;color:#c8a96e;}
+.body{font-size:15px;line-height:1.85;color:#7a7268;margin-bottom:20px;}
+.body strong{color:#b0a898;font-weight:500;}
+
+/* CALLOUT */
+.callout{background:rgba(200,169,110,0.06);border:1px solid rgba(200,169,110,0.14);border-radius:16px;padding:36px 44px;margin:48px 0;}
+.callout-text{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(16px,2.5vw,21px);line-height:1.65;color:#c8b898;}
+
+/* PIPELINE */
+.pipeline{margin:48px 0;display:flex;flex-direction:column;gap:0;}
+.pipe-row{display:flex;align-items:stretch;gap:0;}
+.pipe-node{flex:1;border:1px solid rgba(240,236,224,0.09);border-radius:12px;padding:20px 22px;background:rgba(240,236,224,0.03);transition:background 0.2s;}
+.pipe-node:hover{background:rgba(200,169,110,0.07);}
+.pipe-node-num{font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(200,169,110,0.5);margin-bottom:6px;}
+.pipe-node-title{font-size:13px;font-weight:500;color:#f0ece0;letter-spacing:0.02em;margin-bottom:4px;}
+.pipe-node-desc{font-size:12px;color:#5a5450;line-height:1.6;}
+.pipe-arrow{display:flex;align-items:center;justify-content:center;padding:6px 0;color:rgba(200,169,110,0.35);font-size:18px;}
+.pipe-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:48px 0;}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(240,236,224,0.06);border-radius:16px;overflow:hidden;margin:48px 0;}
+.stat{background:#0d0d0d;padding:32px 24px;}
+.stat-n{font-family:'Playfair Display',serif;font-size:44px;font-weight:900;color:#c8a96e;line-height:1;}
+.stat-unit{font-size:16px;color:rgba(200,169,110,0.55);}
+.stat-l{font-size:11px;color:#4a4540;margin-top:8px;line-height:1.5;}
+
+/* STEPS */
+.steps{margin:40px 0;}
+.step{display:grid;grid-template-columns:72px 1fr;border-top:1px solid rgba(240,236,224,0.07);padding:28px 0;}
+.step:last-child{border-bottom:1px solid rgba(240,236,224,0.07);}
+.step-n{font-size:11px;color:rgba(240,236,224,0.18);padding-top:2px;font-family:'Playfair Display',serif;}
+.step-body h4{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#f0ece0;font-weight:500;margin-bottom:8px;}
+.step-body p{font-size:14px;line-height:1.75;color:#5e5850;}
+
+/* SCREENSHOT MOCKUP */
+.mockup{background:rgba(240,236,224,0.03);border:1px solid rgba(240,236,224,0.07);border-radius:16px;overflow:hidden;margin:48px 0;}
+.mockup-bar{background:rgba(240,236,224,0.04);padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(240,236,224,0.06);}
+.mockup-dot{width:10px;height:10px;border-radius:50%;}
+.d1{background:#ff5f57;} .d2{background:#febc2e;} .d3{background:#28c840;}
+.mockup-url{margin-left:8px;font-size:11px;color:rgba(240,236,224,0.2);letter-spacing:0.04em;}
+.mockup-body{padding:24px 28px;}
+.mockup-title{font-size:18px;font-weight:600;color:#f0ece0;margin-bottom:6px;}
+.mockup-sub{font-size:12px;color:#5a5450;margin-bottom:20px;}
+.mockup-upload{border:1px dashed rgba(240,236,224,0.12);border-radius:10px;padding:28px;text-align:center;margin-bottom:16px;}
+.mockup-upload-icon{font-size:24px;margin-bottom:8px;opacity:0.4;}
+.mockup-upload-text{font-size:12px;color:#5a5450;}
+.mockup-btn{background:#e8600a;color:#fff;border-radius:8px;padding:12px;text-align:center;font-size:13px;font-weight:600;margin-bottom:16px;}
+.mockup-tabs{display:flex;gap:20px;border-bottom:1px solid rgba(240,236,224,0.07);margin-bottom:16px;}
+.m-tab{font-size:12px;padding:8px 0;cursor:pointer;color:#5a5450;}
+.m-tab.active{color:#e8600a;border-bottom:2px solid #e8600a;}
+.mockup-chat-q{background:rgba(240,236,224,0.05);border:1px solid rgba(240,236,224,0.08);border-radius:8px;padding:12px 16px;font-size:12px;color:#9a9288;margin-bottom:12px;}
+.mockup-chat-q span{display:block;font-size:11px;color:#4a4540;margin-bottom:4px;}
+.mockup-answer{font-size:12px;color:#8a8278;line-height:1.7;margin-bottom:12px;}
+.mockup-sources{display:flex;gap:8px;flex-wrap:wrap;}
+.m-chunk{background:rgba(200,169,110,0.08);border:1px solid rgba(200,169,110,0.15);color:#9a7840;padding:4px 10px;border-radius:6px;font-size:10px;}
+.rag-context{background:rgba(240,236,224,0.02);border:1px solid rgba(240,236,224,0.06);border-radius:10px;padding:16px 20px;margin-bottom:12px;}
+.rag-ctx-label{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(200,169,110,0.5);margin-bottom:8px;}
+.rag-ctx-text{font-size:11px;color:#4a4540;line-height:1.65;}
+
+/* TECH */
+.tech-grid{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0;}
+.tech{background:rgba(240,236,224,0.03);border:1px solid rgba(240,236,224,0.08);color:#6a6258;padding:7px 16px;border-radius:8px;font-size:12px;letter-spacing:0.04em;}
+
+/* OUTCOMES */
+.outcomes{margin:32px 0;}
+.outcome{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid rgba(240,236,224,0.05);}
+.outcome:first-child{border-top:1px solid rgba(240,236,224,0.05);}
+.o-dot{width:5px;height:5px;min-width:5px;border-radius:50%;background:#c8a96e;margin-top:10px;}
+.outcome p{font-size:14px;line-height:1.8;color:#6a6258;}
+.outcome p strong{color:#a09888;font-weight:500;}
+
+/* CLOSING */
+.closing{padding:80px 0 0;}
+.closing-big{font-family:'Playfair Display',serif;font-size:clamp(18px,3vw,26px);font-weight:400;font-style:italic;color:#3a3530;line-height:1.6;}
+.closing-big em{color:#c8a96e;font-style:normal;}
+</style>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Document Intelligence · RAG Pipeline · AI Automation</div>
+    <div class="hero-title">Docu<em>Mind.</em></div>
+    <div class="hero-desc">An end-to-end AI document intelligence platform — upload any file, get a structured summary, chat with it using RAG, and trigger automated workflows. No manual reading required.</div>
+    <div class="hero-tags">
+      <span class="h-tag">Python</span>
+      <span class="h-tag">ChromaDB</span>
+      <span class="h-tag">RAG</span>
+      <span class="h-tag">Groq LLM</span>
+      <span class="h-tag">sentence-transformers</span>
+      <span class="h-tag">OCR</span>
+      <span class="h-tag">Gradio</span>
+      <span class="h-tag">Flask</span>
+      <span class="h-tag">Google Sheets</span>
+      <span class="h-tag">Gmail</span>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- OPENING -->
+  <div class="big-statement">
+    <div class="big-q">Most "AI document tools" are just wrappers around a summarization prompt. DocuMind is a <em>full RAG pipeline</em> — extract, chunk, embed, retrieve, generate. Built from scratch.</div>
+  </div>
+
+  <!-- PROBLEM -->
+  <div class="section">
+    <div class="s-label">The Problem</div>
+    <div class="s-title">Documents are <em>locked.</em></div>
+    <p class="body">PDFs, invoices, contracts, research papers — critical information lives in unstructured files that can't be searched, queried, or actioned programmatically. Enterprise tools cost thousands. LLM wrappers hallucinate because they don't retrieve, they guess. <strong>The gap was a lightweight, accurate, composable pipeline that handles real-world documents and plugs into existing workflows.</strong></p>
+  </div>
+
+  <!-- PIPELINE -->
+  <div class="section">
+    <div class="s-label">Architecture</div>
+    <div class="s-title">Nine steps. <em>One pipeline.</em></div>
+    <p class="body" style="margin-bottom:36px;">Every document flows through the same deterministic path — no shortcuts, no black boxes.</p>
+
+    <div class="pipeline">
+      <div class="pipe-grid">
+        <div class="pipe-node"><div class="pipe-node-num">01</div><div class="pipe-node-title">Upload & Extract</div><div class="pipe-node-desc">PyMuPDF for native PDFs. Poppler + pytesseract OCR for scanned images and photo documents. Handles DOCX and TXT natively.</div></div>
+        <div class="pipe-node"><div class="pipe-node-num">02</div><div class="pipe-node-title">Document Classification</div><div class="pipe-node-desc">Groq LLM classifies each document into a semantic category — resume, contract, invoice, report, email, research paper — to tailor downstream extraction.</div></div>
+        <div class="pipe-node"><div class="pipe-node-num">03</div><div class="pipe-node-title">Semantic Chunking</div><div class="pipe-node-desc">Documents are split into overlapping semantic chunks rather than fixed token windows — preserving context across boundaries.</div></div>
+        <div class="pipe-node"><div class="pipe-node-num">04</div><div class="pipe-node-title">Vector Embeddings</div><div class="pipe-node-desc">each chunk is embedded using all-MiniLM-L6-v2 from sentence-transformers — a fast, high-quality 384-dim model optimised for semantic search.</div></div>
+        <div class="pipe-node"><div class="pipe-node-num">05</div><div class="pipe-node-title">ChromaDB Vector Store</div><div class="pipe-node-desc">Embeddings stored in ChromaDB with metadata — chunk index, document type, source page. Persists across sessions for re-querying without re-processing.</div></div>
+        <div class="pipe-node"><div class="pipe-node-num">06</div><div class="pipe-node-title">RAG Retrieval</div><div class="pipe-node-desc">User query is embedded at runtime. ChromaDB retrieves the top-k most semantically similar chunks — only relevant context reaches the LLM.</div></div>
+        <div class="pipe-node"><div class="pipe-node-num">07</div><div class="pipe-node-title">Groq LLM Generation</div><div class="pipe-node-desc">Retrieved chunks are injected into a structured prompt. Groq (LLaMA 3) generates grounded, evidence-backed answers — hallucination minimised by design.</div></div>
+        <div class="pipe-node"><div class="pipe-node-num">08</div><div class="pipe-node-title">Structured Output</div><div class="pipe-node-desc">Beyond Q&A: concise summary, JSON extraction of key fields, action items with owners, deadlines, and priorities.</div></div>
+        <div class="pipe-node"><div class="pipe-node-num">09</div><div class="pipe-node-title">Automation Layer</div><div class="pipe-node-desc">Action items auto-logged to Google Sheets. Summaries dispatched via Gmail. Flask webhook enables n8n / external trigger integration.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOCKUP -->
+  <div class="section">
+    <div class="s-label">The Product</div>
+    <div class="s-title">Ask anything. Get <em>cited answers.</em></div>
+    <p class="body">The "Chat with Document" tab lets users ask free-form questions about uploaded documents. Responses come with source citations — the exact chunks the LLM used to generate the answer. No black box.</p>
+
+    <div class="mockup">
+      <div class="mockup-bar">
+        <div class="mockup-dot d1"></div>
+        <div class="mockup-dot d2"></div>
+        <div class="mockup-dot d3"></div>
+        <div class="mockup-url">DocuMind · Document Intelligence Platform</div>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-title">DocuMind</div>
+        <div class="mockup-sub">Turn PDFs, images, and documents into searchable insights with AI.</div>
+        <div class="mockup-btn">✓ Document Analyzed — Ready to query</div>
+        <div class="mockup-tabs">
+          <div class="m-tab">Results</div>
+          <div class="m-tab active">Chat with Document</div>
+        </div>
+        <div class="mockup-chat-q">
+          <span>Your question</span>
+          What are the names of the projects done by this person?
+        </div>
+        <div class="mockup-answer">The projects done by this person are:<br>1. DocuMind<br>2. PitchPilot</div>
+        <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#3a3530;margin-bottom:8px;">Sources Used — Retrieved Context</div>
+        <div class="mockup-sources">
+          <span class="m-chunk">Chunk 0</span>
+          <span class="m-chunk">Chunk 1</span>
+          <span class="m-chunk">Chunk 2</span>
+          <span class="m-chunk">Chunk 3</span>
+        </div>
+        <div style="margin-top:16px;">
+          <div class="rag-context">
+            <div class="rag-ctx-label">Context 1 — Retrieved</div>
+            <div class="rag-ctx-text">Engineered a multi-profile system with 3 role-specific personas, enabling the LLM to auto-select the most relevant project angle per target company's industry...</div>
+          </div>
+          <div class="rag-context">
+            <div class="rag-ctx-label">Context 2 — Retrieved</div>
+            <div class="rag-ctx-text">DocuMind — AI-powered document intelligence platform that turns unstructured PDFs into searchable insights, summaries, structured data, and conversational AI responses...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-text">"RAG isn't just a technique — it's a trust mechanism. By showing users which chunks the answer came from, DocuMind makes AI outputs verifiable, not just plausible."</div>
+  </div>
+
+  <!-- KEY DECISIONS -->
+  <div class="section">
+    <div class="s-label">Design Decisions</div>
+    <div class="s-title">Why these choices <em>matter.</em></div>
+    <div class="steps">
+      <div class="step"><div class="step-n">01</div><div class="step-body"><h4>Semantic chunking over fixed windows</h4><p>Fixed token windows cut sentences mid-thought, destroying context. Semantic chunking with overlap preserves meaning at boundaries — retrieval quality is noticeably better on longer documents.</p></div></div>
+      <div class="step"><div class="step-n">02</div><div class="step-body"><h4>all-MiniLM-L6-v2 over larger models</h4><p>A 384-dim model that runs fast locally with no API cost. For document retrieval at this scale, it matches much larger embedding models — choosing the right tool, not the most impressive-sounding one.</p></div></div>
+      <div class="step"><div class="step-n">03</div><div class="step-body"><h4>ChromaDB over in-memory vectors</h4><p>ChromaDB persists embeddings to disk — re-querying the same document doesn't require re-processing. Critical for usability when documents take seconds to embed.</p></div></div>
+      <div class="step"><div class="step-n">04</div><div class="step-body"><h4>Classification before extraction</h4><p>Knowing a document is a resume vs. a contract changes what you extract. Classification lets the prompt be document-type-aware — improving structured output quality significantly.</p></div></div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><div class="stat-n">5+</div><div class="stat-l">Document types — PDF, image, DOCX, TXT, scanned</div></div>
+    <div class="stat"><div class="stat-n">6</div><div class="stat-l">Document classes for semantic classification</div></div>
+    <div class="stat"><div class="stat-n">0</div><div class="stat-l">Manual reading steps after upload</div></div>
+  </div>
+
+  <!-- TECH -->
+  <div class="section">
+    <div class="s-label">Stack</div>
+    <div class="s-title">Every tool <em>earns its place.</em></div>
+    <div class="tech-grid">
+      <span class="tech">Python</span>
+      <span class="tech">ChromaDB</span>
+      <span class="tech">sentence-transformers (all-MiniLM-L6-v2)</span>
+      <span class="tech">Groq API / LLaMA 3</span>
+      <span class="tech">PyMuPDF</span>
+      <span class="tech">pytesseract OCR</span>
+      <span class="tech">Poppler</span>
+      <span class="tech">Gradio</span>
+      <span class="tech">Flask</span>
+      <span class="tech">n8n webhook</span>
+      <span class="tech">Google Sheets API</span>
+      <span class="tech">Gmail SMTP</span>
+    </div>
+  </div>
+
+  <!-- LEARNINGS -->
+  <div class="section">
+    <div class="s-label">Learnings</div>
+    <div class="s-title">What building this <em>actually taught me.</em></div>
+    <div class="outcomes">
+      <div class="outcome"><div class="o-dot"></div><p><strong>RAG quality lives or dies by chunking strategy.</strong> Naive splitting produced retrieval misses that no amount of prompt engineering could fix — the fix was upstream.</p></div>
+      <div class="outcome"><div class="o-dot"></div><p><strong>OCR preprocessing is non-trivial.</strong> Deskewing and denoising before pytesseract significantly improved text quality on real-world scanned documents — garbage in, garbage out applies hard here.</p></div>
+      <div class="outcome"><div class="o-dot"></div><p><strong>Showing retrieved chunks to users builds trust.</strong> The source citation UI wasn't in the original spec — added it after noticing that users questioned AI answers without evidence. Transparency is UX.</p></div>
+      <div class="outcome"><div class="o-dot"></div><p><strong>The email output was the highest-leverage feature in demos.</strong> Stakeholders want summaries in their inbox, not dashboards they have to log into. Distribution matters as much as intelligence.</p></div>
+      <div class="outcome"><div class="o-dot"></div><p><strong>Modular architecture compounds.</strong> Because each layer is independent, adding the RAG pipeline to an existing extraction tool took two days, not two weeks. Design for replaceability.</p></div>
+    </div>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="closing">
+    <div class="closing-big">DocuMind isn't a chatbot with a PDF attached. It's a <em>full retrieval-augmented generation pipeline</em> — where every answer is grounded in evidence, every insight triggers an action, and every component was chosen to solve a real problem.</div>
+  </div>
+
+</div>
