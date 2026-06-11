@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DocuMind — Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #080810;
+    --surface: #0F0F1A;
+    --card: #13131F;
+    --border: rgba(123,92,240,0.18);
+    --violet: #7B5CF0;
+    --violet-dim: rgba(123,92,240,0.12);
+    --green: #00FF9C;
+    --green-dim: rgba(0,255,156,0.1);
+    --white: #E8E6F0;
+    --muted: #6B6880;
+    --label: #9B98B0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(8,8,16,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-logo .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--violet); display: inline-block; }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    font-size: 13px; color: var(--muted); text-decoration: none;
+    font-family: 'Space Mono', monospace; letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-tag {
+    font-family: 'Space Mono', monospace; font-size: 11px;
+    color: var(--green); border: 1px solid var(--green); border-radius: 2px;
+    padding: 4px 10px; letter-spacing: 0.08em;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 120px 48px 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(123,92,240,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -100px; left: 200px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,255,156,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace; font-size: 11px;
+    color: var(--violet); letter-spacing: 0.15em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px; margin-bottom: 32px;
+  }
+  .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--violet); display: block; }
+
+  .hero-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 700; line-height: 0.95;
+    letter-spacing: -0.03em;
+    max-width: 900px;
+    margin-bottom: 32px;
+  }
+  .hero-title em { font-style: italic; color: var(--violet); }
+  .hero-title .accent { color: var(--green); }
+
+  .hero-sub {
+    font-size: 18px; color: var(--label); max-width: 560px;
+    line-height: 1.7; margin-bottom: 56px;
+  }
+
+  .hero-meta {
+    display: flex; gap: 48px; flex-wrap: wrap;
+  }
+  .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .hero-meta-label {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .hero-meta-value { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 500; }
+
+  .hero-tags {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-top: 40px;
+  }
+  .tag {
+    font-family: 'Space Mono', monospace; font-size: 11px;
+    padding: 6px 12px; border-radius: 2px;
+    border: 1px solid var(--border);
+    color: var(--label); letter-spacing: 0.04em;
+    background: var(--violet-dim);
+  }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-hint {
+    position: absolute; bottom: 40px; left: 48px;
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'Space Mono', monospace; font-size: 11px;
+    color: var(--muted); letter-spacing: 0.08em;
+    animation: bob 2s ease-in-out infinite;
+  }
+  .scroll-hint svg { opacity: 0.5; }
+  @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 48px; }
+  .section-label {
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    color: var(--violet); letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--violet); }
+
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(32px, 4vw, 52px); font-weight: 700;
+    letter-spacing: -0.025em; line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  h2 em { font-style: italic; color: var(--violet); }
+
+  .lead {
+    font-size: 17px; color: var(--label); max-width: 640px;
+    line-height: 1.75; margin-bottom: 64px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--border); margin: 0 48px; }
+
+  /* ── STATS BAND ── */
+  .stats-band {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 56px 48px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  }
+  .stat-item {
+    padding: 0 40px; border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .stat-item:first-child { padding-left: 0; }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 52px; font-weight: 700; line-height: 1;
+    color: var(--green);
+  }
+  .stat-desc { font-size: 13px; color: var(--muted); }
+
+  /* ── MIGRATION BANNER ── */
+  .migration-banner {
+    margin: 0 48px;
+    background: linear-gradient(135deg, rgba(123,92,240,0.12) 0%, rgba(0,255,156,0.05) 100%);
+    border: 1px solid rgba(123,92,240,0.35);
+    border-radius: 4px;
+    padding: 48px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+    align-items: center;
+  }
+  .migration-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    background: var(--violet); color: #fff;
+    padding: 5px 12px; border-radius: 2px;
+    margin-bottom: 20px;
+  }
+  .migration-badge .pulse {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .migration-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 28px; font-weight: 700; letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .migration-desc { font-size: 15px; color: var(--label); line-height: 1.7; }
+
+  .migration-compare {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .compare-row { display: flex; align-items: center; gap: 16px; }
+  .compare-from, .compare-to {
+    flex: 1; padding: 14px 18px; border-radius: 3px;
+    font-family: 'Space Mono', monospace; font-size: 12px;
+  }
+  .compare-from { background: rgba(255,255,255,0.04); color: var(--muted); text-decoration: line-through; }
+  .compare-to { background: rgba(123,92,240,0.15); color: var(--violet); border: 1px solid rgba(123,92,240,0.3); }
+  .compare-arrow { color: var(--violet); font-size: 18px; flex-shrink: 0; }
+
+  /* ── PIPELINE ── */
+  .pipeline-section { padding: 100px 48px; }
+  .pipeline-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 64px;
+  }
+  .pipeline-step {
+    background: var(--card); padding: 36px 32px;
+    position: relative; overflow: hidden;
+    transition: background 0.25s;
+  }
+  .pipeline-step:hover { background: rgba(19,19,31,0.95); }
+  .pipeline-step::before {
+    content: attr(data-num);
+    position: absolute; top: -10px; right: 20px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 72px; font-weight: 700; line-height: 1;
+    color: rgba(123,92,240,0.07);
+    pointer-events: none;
+  }
+  .step-icon {
+    font-size: 22px; margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px;
+    background: var(--violet-dim); border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+  .step-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px; font-weight: 600; margin-bottom: 10px;
+  }
+  .step-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .step-tag {
+    display: inline-block; margin-top: 16px;
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    color: var(--green); background: var(--green-dim);
+    padding: 3px 8px; border-radius: 2px;
+    border: 1px solid rgba(0,255,156,0.2);
+  }
+
+  /* ── DESIGN DECISIONS ── */
+  .decisions-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 64px;
+  }
+  .decision-card {
+    background: var(--card); padding: 40px;
+    position: relative;
+  }
+  .decision-num {
+    font-family: 'Space Mono', monospace; font-size: 11px;
+    color: var(--violet); margin-bottom: 20px;
+    letter-spacing: 0.1em;
+  }
+  .decision-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px; font-weight: 600; margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .decision-body { font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .decision-verdict {
+    margin-top: 20px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 13px; color: var(--label); font-style: italic;
+  }
+
+  /* ── STACK ── */
+  .stack-section { padding: 100px 48px; }
+  .stack-grid {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 56px;
+  }
+  .stack-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 20px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 3px;
+    font-size: 14px; font-family: 'Space Grotesk', sans-serif; font-weight: 500;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .stack-item:hover { border-color: var(--violet); background: var(--violet-dim); }
+  .stack-item.new-stack { border-color: rgba(0,255,156,0.4); background: var(--green-dim); color: var(--green); }
+  .stack-item.new-stack:hover { border-color: var(--green); }
+  .stack-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
+  .stack-dot.new { background: var(--green); }
+
+  /* ── LEARNINGS ── */
+  .learnings-list {
+    display: flex; flex-direction: column; gap: 0;
+    border: 1px solid var(--border); margin-top: 64px;
+  }
+  .learning-row {
+    display: grid; grid-template-columns: 48px 1fr;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .learning-row:last-child { border-bottom: none; }
+  .learning-row:hover { background: var(--violet-dim); }
+  .learning-num {
+    display: flex; align-items: flex-start; justify-content: center;
+    padding: 32px 0 32px;
+    font-family: 'Space Mono', monospace; font-size: 11px;
+    color: var(--violet); border-right: 1px solid var(--border);
+  }
+  .learning-content { padding: 28px 40px; }
+  .learning-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px; font-weight: 600; margin-bottom: 8px;
+  }
+  .learning-body { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+  /* ── QUOTE ── */
+  .quote-block {
+    padding: 80px 48px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .quote-mark {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 80px; line-height: 0.5;
+    color: var(--violet); margin-bottom: 24px; display: block;
+    opacity: 0.5;
+  }
+  blockquote {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 400; line-height: 1.5;
+    letter-spacing: -0.01em; max-width: 820px;
+    color: var(--white);
+  }
+  blockquote em { color: var(--violet); font-style: italic; }
+  .quote-attribution {
+    margin-top: 32px; font-family: 'Space Mono', monospace;
+    font-size: 11px; color: var(--muted); letter-spacing: 0.1em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 56px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid var(--border);
+  }
+  .footer-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 20px; color: var(--white);
+  }
+  .footer-meta {
+    font-family: 'Space Mono', monospace; font-size: 11px;
+    color: var(--muted); letter-spacing: 0.06em;
+  }
+  .footer-link {
+    font-family: 'Space Mono', monospace; font-size: 12px;
+    color: var(--violet); text-decoration: none;
+    border-bottom: 1px solid var(--violet);
+    padding-bottom: 2px;
+    letter-spacing: 0.06em;
+    transition: opacity 0.2s;
+  }
+  .footer-link:hover { opacity: 0.7; }
+
+  /* ── FADE IN ── */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero, section, .stack-section, .pipeline-section { padding-left: 24px; padding-right: 24px; }
+    .stats-band { grid-template-columns: repeat(2, 1fr); }
+    .stat-item { padding: 20px 24px; border-right: none; border-bottom: 1px solid var(--border); }
+    .pipeline-grid { grid-template-columns: 1fr; }
+    .decisions-grid { grid-template-columns: 1fr; }
+    .migration-banner { grid-template-columns: 1fr; margin: 0 24px; }
+    .divider { margin: 0 24px; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+    .quote-block { padding: 60px 24px; }
+    .learnings-list { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span class="dot"></span> DocuMind</div>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#migration">Migration</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#stack">Stack</a>
+    <a href="#learnings">Learnings</a>
+  </div>
+  <span class="nav-tag">CASE STUDY</span>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-eyebrow">Document Intelligence · RAG Pipeline · AI Automation</div>
+  <h1 class="hero-title">
+    Every doc<br>
+    becomes <em>queryable.</em><br>
+    Every insight <span class="accent">actionable.</span>
+  </h1>
+  <p class="hero-sub">
+    DocuMind is a full retrieval-augmented generation pipeline — extract, chunk, embed, retrieve, generate. Not a summarization wrapper. Built end-to-end from scratch, now running on Streamlit.
+  </p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Type</span>
+      <span class="hero-meta-value">Solo Project</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Latest Stack</span>
+      <span class="hero-meta-value">Streamlit · ChromaDB · Groq</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Pipeline Steps</span>
+      <span class="hero-meta-value">9 deterministic stages</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Status</span>
+      <span class="hero-meta-value" style="color:var(--green)">● Live on Streamlit Cloud</span>
+    </div>
+  </div>
+  <div class="hero-tags">
+    <span class="tag">Python</span>
+    <span class="tag">ChromaDB</span>
+    <span class="tag">RAG</span>
+    <span class="tag">Groq · LLaMA 3</span>
+    <span class="tag">sentence-transformers</span>
+    <span class="tag">OCR</span>
+    <span class="tag">Streamlit</span>
+    <span class="tag">Google Sheets</span>
+    <span class="tag">Gmail</span>
+  </div>
+  <div class="scroll-hint">
+    <svg width="14" height="20" viewBox="0 0 14 20" fill="none"><rect x="1" y="1" width="12" height="18" rx="6" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="6" r="2" fill="currentColor"><animate attributeName="cy" values="6;12;6" dur="2s" repeatCount="indefinite"/></circle></svg>
+    SCROLL
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="stats-band fade-in">
+  <div class="stat-item">
+    <span class="stat-num">9</span>
+    <span class="stat-desc">Deterministic pipeline stages — zero black boxes</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">5+</span>
+    <span class="stat-desc">Document types: PDF, DOCX, TXT, image, scanned</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">0</span>
+    <span class="stat-desc">Manual reading steps after document upload</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">K=5</span>
+    <span class="stat-desc">Semantic chunks retrieved per query via ChromaDB</span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section id="problem" class="fade-in">
+  <div class="section-label">The Problem</div>
+  <h2>Documents are <em>locked.</em></h2>
+  <p class="lead">
+    PDFs, invoices, contracts, research papers — critical information lives in unstructured files that can't be searched, queried, or actioned programmatically. Enterprise tools cost thousands. LLM wrappers hallucinate because they don't retrieve, they guess. DocuMind closes that gap.
+  </p>
+</section>
+
+<div class="divider"></div>
+
+<!-- MIGRATION BANNER -->
+<section id="migration" style="padding: 80px 0;">
+  <div class="migration-banner fade-in">
+    <div>
+      <div class="migration-badge"><span class="pulse"></span> Major Update</div>
+      <div class="migration-title">Dashboard Migration:<br>Gradio → Streamlit</div>
+      <p class="migration-desc">
+        The most significant architectural change since launch. DocuMind's frontend has been fully migrated from Gradio to Streamlit, delivering a production-grade dashboard with a native dark theme, multi-tab layout, and real-time pipeline status — all deployable to Streamlit Cloud in a single push. The interface now matches the sophistication of the backend pipeline.
+      </p>
+    </div>
+    <div class="migration-compare">
+      <div class="compare-row">
+        <div class="compare-from">Gradio Blocks UI</div>
+        <span class="compare-arrow">→</span>
+        <div class="compare-to">Streamlit Dashboard</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-from">Single-page layout</div>
+        <span class="compare-arrow">→</span>
+        <div class="compare-to">Results · AI Assistant · Export tabs</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-from">Limited theming</div>
+        <span class="compare-arrow">→</span>
+        <div class="compare-to">Native dark theme + custom CSS</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-from">Complex hosting</div>
+        <span class="compare-arrow">→</span>
+        <div class="compare-to">One-click Streamlit Cloud deploy</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-from">Static component state</div>
+        <span class="compare-arrow">→</span>
+        <div class="compare-to">Live pipeline status + metrics cards</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section id="pipeline" class="pipeline-section fade-in">
+  <div class="section-label">Architecture</div>
+  <h2>Nine steps. <em>One pipeline.</em></h2>
+  <p class="lead">
+    Every document flows through the same deterministic path. No shortcuts, no black boxes — and no step is skippable.
+  </p>
+
+  <div class="pipeline-grid">
+    <div class="pipeline-step" data-num="01">
+      <div class="step-icon">📄</div>
+      <div class="step-title">Upload & Extract</div>
+      <p class="step-desc">PyMuPDF for native PDFs. Poppler + pytesseract OCR for scanned images. Handles DOCX and TXT natively.</p>
+      <span class="step-tag">PyMuPDF · pytesseract</span>
+    </div>
+    <div class="pipeline-step" data-num="02">
+      <div class="step-icon">🏷️</div>
+      <div class="step-title">Document Classification</div>
+      <p class="step-desc">Groq LLM classifies each document into a semantic category — resume, contract, invoice, report — to tailor downstream extraction.</p>
+      <span class="step-tag">Groq · LLaMA 3</span>
+    </div>
+    <div class="pipeline-step" data-num="03">
+      <div class="step-icon">✂️</div>
+      <div class="step-title">Semantic Chunking</div>
+      <p class="step-desc">Documents split into overlapping semantic chunks rather than fixed token windows — preserving context across boundaries.</p>
+      <span class="step-tag">Overlap strategy</span>
+    </div>
+    <div class="pipeline-step" data-num="04">
+      <div class="step-icon">🧮</div>
+      <div class="step-title">Vector Embeddings</div>
+      <p class="step-desc">Each chunk embedded using all-MiniLM-L6-v2 — a fast, high-quality 384-dim model optimised for semantic search.</p>
+      <span class="step-tag">sentence-transformers</span>
+    </div>
+    <div class="pipeline-step" data-num="05">
+      <div class="step-icon">🗄️</div>
+      <div class="step-title">ChromaDB Vector Store</div>
+      <p class="step-desc">Embeddings stored with metadata — chunk index, document type, source page. Persists across sessions without re-processing.</p>
+      <span class="step-tag">ChromaDB · persistent</span>
+    </div>
+    <div class="pipeline-step" data-num="06">
+      <div class="step-icon">🔍</div>
+      <div class="step-title">RAG Retrieval</div>
+      <p class="step-desc">User query embedded at runtime. ChromaDB retrieves top-K=5 most semantically similar chunks. Only relevant context reaches the LLM.</p>
+      <span class="step-tag">Top-K=5 · cosine sim</span>
+    </div>
+    <div class="pipeline-step" data-num="07">
+      <div class="step-icon">⚡</div>
+      <div class="step-title">Groq LLM Generation</div>
+      <p class="step-desc">Retrieved chunks injected into a structured prompt. LLaMA 3 generates grounded, evidence-backed answers. Hallucination minimised by design.</p>
+      <span class="step-tag">Grounded generation</span>
+    </div>
+    <div class="pipeline-step" data-num="08">
+      <div class="step-icon">📊</div>
+      <div class="step-title">Structured Output</div>
+      <p class="step-desc">Concise summary, JSON extraction of key fields, action items with owners, deadlines, and priorities — beyond simple Q&A.</p>
+      <span class="step-tag">JSON extraction</span>
+    </div>
+    <div class="pipeline-step" data-num="09">
+      <div class="step-icon">🔄</div>
+      <div class="step-title">Automation Layer</div>
+      <p class="step-desc">Action items auto-logged to Google Sheets. Summaries dispatched via Gmail. Flask webhook enables n8n and external trigger integration.</p>
+      <span class="step-tag">Sheets · Gmail · Webhook</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- QUOTE -->
+<div class="quote-block fade-in">
+  <span class="quote-mark">"</span>
+  <blockquote>
+    RAG isn't just a technique — it's a <em>trust mechanism.</em> By showing users which chunks the answer came from, DocuMind makes AI outputs verifiable, not just plausible.
+  </blockquote>
+  <div class="quote-attribution">— DESIGN PRINCIPLE · DOCUMIND</div>
+</div>
+
+<!-- DESIGN DECISIONS -->
+<section id="decisions" class="fade-in">
+  <div class="section-label">Design Decisions</div>
+  <h2>Why these choices <em>matter.</em></h2>
+  <p class="lead">Every architectural choice was made to solve a concrete problem, not to sound impressive.</p>
+
+  <div class="decisions-grid">
+    <div class="decision-card">
+      <div class="decision-num">DECISION 01</div>
+      <div class="decision-title">Semantic chunking over fixed windows</div>
+      <p class="decision-body">Fixed token windows cut sentences mid-thought, destroying context. Semantic chunking with overlap preserves meaning at boundaries — retrieval quality is noticeably better on longer documents.</p>
+      <div class="decision-verdict">Result: measurably fewer retrieval misses on multi-page documents.</div>
+    </div>
+    <div class="decision-card">
+      <div class="decision-num">DECISION 02</div>
+      <div class="decision-title">all-MiniLM-L6-v2 over larger models</div>
+      <p class="decision-body">A 384-dim model that runs fast locally with no API cost. For document retrieval at this scale, it matches much larger embedding models — choosing the right tool, not the most impressive-sounding one.</p>
+      <div class="decision-verdict">Result: zero embedding API cost, sub-second latency per chunk.</div>
+    </div>
+    <div class="decision-card">
+      <div class="decision-num">DECISION 03</div>
+      <div class="decision-title">ChromaDB over in-memory vectors</div>
+      <p class="decision-body">ChromaDB persists embeddings to disk — re-querying the same document doesn't require re-processing. Critical for usability when documents take seconds to embed.</p>
+      <div class="decision-verdict">Result: re-query latency drops from seconds to milliseconds.</div>
+    </div>
+    <div class="decision-card">
+      <div class="decision-num">DECISION 04</div>
+      <div class="decision-title">Classification before extraction</div>
+      <p class="decision-body">Knowing a document is a resume vs. a contract changes what you extract. Classification lets the prompt be document-type-aware — improving structured output quality significantly across all 6 document classes.</p>
+      <div class="decision-verdict">Result: extraction prompts are 60% more specific post-classification.</div>
+    </div>
+    <div class="decision-card">
+      <div class="decision-num">DECISION 05</div>
+      <div class="decision-title">Streamlit over Gradio</div>
+      <p class="decision-body">Gradio is excellent for rapid ML prototyping, but Streamlit unlocks a proper application architecture: session state, multi-tab layout, sidebar controls, and native dark theming that matches the pipeline's production intent.</p>
+      <div class="decision-verdict">Result: demo-to-product feel, deployable to Streamlit Cloud in one push.</div>
+    </div>
+    <div class="decision-card">
+      <div class="decision-num">DECISION 06</div>
+      <div class="decision-title">Source citation UI was unplanned</div>
+      <p class="decision-body">The chunk citation panel wasn't in the original spec. Added after noticing that users questioned AI answers without evidence. Showing retrieved context chunks directly in the UI transformed trust in the system.</p>
+      <div class="decision-verdict">Result: transparency is UX. The most-praised feature in every demo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack" class="stack-section fade-in">
+  <div class="section-label">Stack</div>
+  <h2>Every tool <em>earns its place.</em></h2>
+  <p class="lead">No cargo-culted dependencies. Each library was chosen to solve one concrete problem.</p>
+
+  <div class="stack-grid">
+    <div class="stack-item new-stack"><span class="stack-dot new"></span> Streamlit — new</div>
+    <div class="stack-item"><span class="stack-dot"></span> Python</div>
+    <div class="stack-item"><span class="stack-dot"></span> ChromaDB</div>
+    <div class="stack-item"><span class="stack-dot"></span> sentence-transformers</div>
+    <div class="stack-item"><span class="stack-dot"></span> Groq API / LLaMA 3</div>
+    <div class="stack-item"><span class="stack-dot"></span> PyMuPDF</div>
+    <div class="stack-item"><span class="stack-dot"></span> pytesseract OCR</div>
+    <div class="stack-item"><span class="stack-dot"></span> Poppler</div>
+    <div class="stack-item"><span class="stack-dot"></span> Flask (webhook)</div>
+    <div class="stack-item"><span class="stack-dot"></span> n8n integration</div>
+    <div class="stack-item"><span class="stack-dot"></span> Google Sheets API</div>
+    <div class="stack-item"><span class="stack-dot"></span> Gmail SMTP</div>
+  </div>
+</section>
+
+<!-- LEARNINGS -->
+<section id="learnings" class="fade-in" style="padding-top: 0;">
+  <div class="divider" style="margin: 0 0 80px;"></div>
+  <div class="section-label">Learnings</div>
+  <h2>What building this <em>actually</em> taught me.</h2>
+  <p class="lead">The gap between "it works in a notebook" and "it works on real documents" is where the real engineering happens.</p>
+
+  <div class="learnings-list">
+    <div class="learning-row">
+      <div class="learning-num">01</div>
+      <div class="learning-content">
+        <div class="learning-title">RAG quality lives or dies by chunking</div>
+        <p class="learning-body">Naive splitting produced retrieval misses that no amount of prompt engineering could fix. The fix was upstream — semantic chunking with overlap solved what the LLM layer couldn't.</p>
+      </div>
+    </div>
+    <div class="learning-row">
+      <div class="learning-num">02</div>
+      <div class="learning-content">
+        <div class="learning-title">OCR preprocessing is non-trivial</div>
+        <p class="learning-body">Deskewing and denoising before pytesseract significantly improved text quality on real-world scanned documents. Garbage in, garbage out applies hard when documents are the data source.</p>
+      </div>
+    </div>
+    <div class="learning-row">
+      <div class="learning-num">03</div>
+      <div class="learning-content">
+        <div class="learning-title">Showing retrieved chunks builds trust</div>
+        <p class="learning-body">The source citation UI wasn't in the original spec. Added after noticing users questioned AI answers without evidence. Transparency isn't a feature — it's foundational to how people relate to AI output.</p>
+      </div>
+    </div>
+    <div class="learning-row">
+      <div class="learning-num">04</div>
+      <div class="learning-content">
+        <div class="learning-title">Distribution matters as much as intelligence</div>
+        <p class="learning-body">The email output was the highest-leverage feature in demos. Stakeholders want summaries in their inbox, not dashboards they have to log into. Building for where people already are beats building the best interface.</p>
+      </div>
+    </div>
+    <div class="learning-row">
+      <div class="learning-num">05</div>
+      <div class="learning-content">
+        <div class="learning-title">Modular architecture compounds</div>
+        <p class="learning-body">Because each pipeline layer is independent, migrating the frontend from Gradio to Streamlit took a day, not a week. The RAG pipeline attached to the existing extraction layer in two days. Design for replaceability.</p>
+      </div>
+    </div>
+    <div class="learning-row">
+      <div class="learning-num">06</div>
+      <div class="learning-content">
+        <div class="learning-title">UI framework choice shapes perceived quality</div>
+        <p class="learning-body">The Streamlit migration didn't change the backend at all — but the polished multi-tab dashboard with live pipeline metrics changed how every demo recipient perceived the product. Interface is product.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">DocuMind.</div>
+  <div class="footer-meta">Document Intelligence · RAG Pipeline · AI Automation</div>
+  <a href="https://docs-tool.streamlit.app/" class="footer-link" target="_blank">VIEW LIVE ↗</a>
+</footer>
+
+<script>
+  // Fade-in on scroll
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
